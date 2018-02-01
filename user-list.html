@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <title>Vue</title>
+    <style>
+        * {margin:0; padding:0; font-family: sans-serif;}
+        .vue-app {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .vue-app-title {
+            margin: 15px 0;
+        }
+        .vue-app-panel {
+            display: flex;
+            padding: 7px 0;
+            cursor: pointer;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            margin-bottom: 25px;
+        }
+        .vue-app-item {
+            display: flex;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-bottom: 25px;
+        }
+        .vue-app-item-error {
+            border: 1px solid #ff0000;
+        }
+        .vue-app-item img {
+            width: 100px;
+            margin-right: 30px;
+        }
+    </style>
+    <script data-require="vue.js@*" data-semver="10.0.26" src="https://cdn.jsdelivr.net/vue/1.0.26/vue.min.js"></script>
+</head>
+<body>
+    <div id="userList" class="vue-app">
+        <h1 class="vue-app-title" :title="titleTitle">{{ title }}</h1>
+
+        <label for="showUsers" class="vue-app-panel">
+            <h2>Список пользователей ({{ userList.length }})</h2>
+
+            <div>
+                <input type="checkbox" v-model="showUsers" id="showUsers" />
+                <span for="showUsers">Показывать список</span>
+            </div>
+        </label>
+
+        <user-list :users="userList" :ushow="showUsers"></user-list>
+    </div>
+
+    <script type="x-template" id="usersList">
+        <ul v-show="ushow">
+            <template v-for="user in users">
+                <li v-if="user.avatar"class="vue-app-item">
+                    <div>
+                        <img src="{{user.avatar}}" />
+                    </div>
+                    <div>
+                        {{user.name}}<br>
+                        {{user.middlename}}<br>
+                        {{user.lastname}}
+                    </div>
+                </li>
+                <li v-else class="vue-app-item vue-app-item-error">
+                    <div>
+                        {{user.name}} {{user.middlename}} {{user.lastname}}, загрузите плз авку
+                    </div>
+                </li>
+            </template>
+        </ul>
+    </script>
+
+    <script>
+        var UserList = {
+            template: '#usersList',
+            props: ['users', 'ushow']
+        };
+        var app = new Vue({
+            el: '#userList',
+            components: {
+                'user-list': UserList
+            },
+            data: function() {
+                return {
+                    title: 'Hello, world',
+                    titleTitle: 'Дань традиции',
+                    showUsers: true,
+                    userList: [
+                        {
+                            name: 'Александр',
+                            middlename: 'Сергеевич',
+                            lastname: 'Пушкин',
+                            avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Portrait_of_Alexander_Pushkin_%28Orest_Kiprensky%2C_1827%29.PNG/250px-Portrait_of_Alexander_Pushkin_%28Orest_Kiprensky%2C_1827%29.PNG'
+                        },
+                        {
+                            name: 'Михаил',
+                            middlename: 'Юрьевич',
+                            lastname: 'Лермонтов',
+                            avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Mikhail_lermontov.jpg/267px-Mikhail_lermontov.jpg'
+                        },
+                        {
+                            name: 'Антон',
+                            middlename: 'Павлович',
+                            lastname: 'Чехов',
+                            avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Anton_Chekhov_1889.jpg/267px-Anton_Chekhov_1889.jpg'
+                        },
+                        {
+                            name: 'Николай',
+                            middlename: 'Васильевич',
+                            lastname: 'Гоголь'
+                        },
+                        {
+                            name: 'Федор',
+                            middlename: 'Михайлович',
+                            lastname: 'Достоевский',
+                            avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Vasily_Perov_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%A4.%D0%9C.%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_-_Google_Art_Project.jpg/267px-Vasily_Perov_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%A4.%D0%9C.%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_-_Google_Art_Project.jpg'
+                        },
+                        {
+                            name: 'Лев',
+                            middlename: 'Николаевич',
+                            lastname: 'Толстой',
+                            avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Leo_Tolstoy%2C_portrait.jpg/267px-Leo_Tolstoy%2C_portrait.jpg'
+                        }
+                    ]
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
