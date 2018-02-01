@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <title>Vue</title>
+    <style>
+        * {margin:0; padding:0; font-family: sans-serif;}
+        .vue-app {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .vue-app-title {
+            margin: 15px 0;
+        }
+        .vue-app-input {
+            width: 300px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 15px;
+            margin: 5px 0 20px;
+        }
+    </style>
+    <script data-require="vue.js@*" data-semver="10.0.26" src="https://cdn.jsdelivr.net/vue/1.0.26/vue.min.js"></script>
+</head>
+<body>
+    <div id="userEdit" class="vue-app">
+        <h1 class="vue-app-title">{{ title }}</h1>
+
+        <user-edit :user="user"></user-edit>
+
+        <div class="vue-app-note">
+            Будет сохранен пользователь {{user.name}} {{user.middlename}} {{user.lastname}}
+        </div>
+    </div>
+
+    <script type="x-template" id="userForm">
+        <form method="get" action="">
+            <div>
+                <label>Имя:</label><br>
+                <input class="vue-app-input" name="name" type="text" v-model="user.name" />
+            </div>
+            <div>
+                <label>Отчество:</label><br>
+                <input class="vue-app-input" name="middlename" type="text" v-model="user.middlename" />
+            </div>
+            <div>
+                <label>Фамилия:</label><br>
+                <input class="vue-app-input" name="lastname" type="text" v-model="user.lastname" />
+            </div>
+            <div>
+                <input class="vue-app-input" type="submit" value="Сохранить" />
+            </div>
+        </form>
+    </script>
+
+    <script>
+        var UserEdit = {
+            template: '#userForm',
+            props: {
+                user: {
+                    type: Object,
+                    required: true
+                }
+            }
+        };
+        var app = new Vue({
+            el: '#userEdit',
+            components: {
+                'user-edit': UserEdit
+            },
+            data: function() {
+                return {
+                    title: 'Форма редактирования',
+                    user: {
+                        name: 'Александр',
+                        middlename: 'Сергеевич',
+                        lastname: 'Пушкин'
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
